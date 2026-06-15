@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GerenciadorDeContatos
@@ -53,6 +54,7 @@ namespace GerenciadorDeContatos
         }
 
         //construtor 1
+        [JsonConstructor]
         public Contato(string nome, string email, string telefone)
         {
             this.nome = nome;

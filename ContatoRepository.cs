@@ -12,18 +12,18 @@ namespace GerenciadorDeContatos
 {
     class ContatoRepository
     {
-        private string filePath = "contacts.json";
+        private string ArquivoBase = Environment.CurrentDirectory + @"\contacts.json";
 
         public List<Contato> CapturarDados()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(ArquivoBase))
             {
-                Menu.OpcoesSeSemArquivo(filePath);
+                Menu.OpcoesSeSemArquivo(ArquivoBase);
                 return null;
             }
             else
             {
-                string conteudoJson = File.ReadAllText(filePath);
+                string conteudoJson = File.ReadAllText(ArquivoBase);
                 List<Contato>? contatos = JsonSerializer.Deserialize<List<Contato>>(conteudoJson);
 
                 if (contatos == null || contatos.Count == 0)
@@ -40,6 +40,37 @@ namespace GerenciadorDeContatos
             Contato novoContato = new Contato(Nome, Email, Telefone);
             contatos.Add(novoContato);
             return contatos;
+        }
+
+        public static List<Contato> RetornarListaDeContatosExemplo()
+        {
+            List<Contato> contatosExemplo = new List<Contato>
+            {
+                new Contato("Gabriel", "gabrieldeoliveirafernandesdev@gmail.com", "998812341234"),
+                new Contato("Joao", "joaozinho@gmail.com", "122199994444")
+            };
+
+            return contatosExemplo;
+        }
+
+        public static void CriarArquivoBase(string path, List<Contato> ContatosBase)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(ContatosBase, options);
+            File.WriteAllText(path, json);
+
+        }
+
+        public static void CriarArquivoBase(string path)
+        {
+            File.WriteAllText(path, "");
+        }
+
+        public static void SalvarArquivo(string path, List<Contato> contatos)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(contatos, options);
+            File.WriteAllText(path, json);
         }
     }
 }
