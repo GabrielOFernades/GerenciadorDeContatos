@@ -12,3 +12,4 @@ C:\Users\Gabriel\source\repos\GerenciadorDeContatos\GerenciadorDeContatos\obj\De
 C:\Users\Gabriel\source\repos\GerenciadorDeContatos\GerenciadorDeContatos\obj\Debug\net8.0\GerenciadorDeContatos.pdb
 C:\Users\Gabriel\source\repos\GerenciadorDeContatos\GerenciadorDeContatos\obj\Debug\net8.0\GerenciadorDeContatos.genruntimeconfig.cache
 C:\Users\Gabriel\source\repos\GerenciadorDeContatos\GerenciadorDeContatos\obj\Debug\net8.0\ref\GerenciadorDeContatos.dll
+C:\Users\Gabriel\source\repos\GerenciadorDeContatos\GerenciadorDeContatos\obj\Debug\net8.0\GerenciadorDeContatos.sourcelink.json

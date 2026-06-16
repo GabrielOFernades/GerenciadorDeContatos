@@ -16,21 +16,25 @@ namespace GerenciadorDeContatos
 
         public List<Contato> CapturarDados()
         {
+            List<Contato> contatos = new List<Contato> { };
             if (!File.Exists(ArquivoBase))
             {
                 Menu.OpcoesSeSemArquivo(ArquivoBase);
-                return null;
+                CapturarDados();
+                return contatos;
             }
             else
             {
                 string conteudoJson = File.ReadAllText(ArquivoBase);
-                List<Contato>? contatos = JsonSerializer.Deserialize<List<Contato>>(conteudoJson);
 
-                if (contatos == null || contatos.Count == 0)
+                if (string.IsNullOrWhiteSpace(conteudoJson))
                 {
-                    Console.WriteLine("Nenhum contato no arquivo.");
+                    Console.WriteLine("Arquivo VAZIO.\nUtilizando lista vazia");
                 }
-
+                else
+                {
+                    contatos = JsonSerializer.Deserialize<List<Contato>>(conteudoJson);
+                }
                 return contatos;
             }
         }

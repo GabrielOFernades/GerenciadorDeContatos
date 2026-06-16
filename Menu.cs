@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -53,7 +54,7 @@ namespace GerenciadorDeContatos
 
         }
         
-        public static int MenuPrincipal()
+        public static int MenuPrincipal(List<Contato> contatos)
         {
             int opcao;
             do
@@ -69,7 +70,20 @@ namespace GerenciadorDeContatos
                 opcao = int.Parse(Console.ReadLine());
                 switch (opcao)
                 {
-                    
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Opção inserida é inválida.");
+                        Console.ReadLine();
+                        break;
+                    case 0:
+                        return 0;
+                        break;
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        ImprimirLista(contatos);
+                        break;
                 }
 
             } while (opcao != 0);
@@ -86,6 +100,8 @@ namespace GerenciadorDeContatos
                 Console.WriteLine("Email: " + contato.Email);
                 LinhaLonga();
             }
+            Console.WriteLine("Aperte qualquer tecla para voltar...");
+            Console.Read();
         }
 
     }
