@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GerenciadorDeContatos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e59ee042de8362ab2e65071f2b07cc8cdd94ae2b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ba44255b6b5ad253eba973f9d042353c3f9181c")]
 [assembly: System.Reflection.AssemblyProductAttribute("GerenciadorDeContatos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GerenciadorDeContatos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

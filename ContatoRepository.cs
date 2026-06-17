@@ -39,9 +39,16 @@ namespace GerenciadorDeContatos
             }
         }
 
-        public List<Contato> AdicionarContato(List<Contato> contatos, string Nome, string Email, string Telefone)
+        public List<Contato> AdicionarContato(List<Contato> contatos, int Id, string Nome, string Email, string Telefone)
         {
-            Contato novoContato = new Contato(Nome, Email, Telefone);
+            Contato novoContato = new Contato(Id, Nome, Email, Telefone);
+            contatos.Add(novoContato);
+            return contatos;
+        }
+
+        public List<Contato> AdicionarContato(List<Contato> contatos, int Id, string Nome, string Telefone)
+        {
+            Contato novoContato = new Contato(Id, Nome, Telefone);
             contatos.Add(novoContato);
             return contatos;
         }
@@ -50,8 +57,8 @@ namespace GerenciadorDeContatos
         {
             List<Contato> contatosExemplo = new List<Contato>
             {
-                new Contato("Gabriel", "gabrieldeoliveirafernandesdev@gmail.com", "998812341234"),
-                new Contato("Joao", "joaozinho@gmail.com", "122199994444")
+                new Contato(1, "Gabriel", "gabrieldeoliveirafernandesdev@gmail.com", "998812341234"),
+                new Contato(2,"Joao", "joaozinho@gmail.com", "122199994444")
             };
 
             return contatosExemplo;

@@ -79,7 +79,7 @@ namespace GerenciadorDeContatos
                         return 0;
                         break;
                     case 1:
-                        
+                        AdicionarContatoMenu(contatos);
                         break;
                     case 2:
                         ImprimirLista(contatos);
@@ -92,16 +92,77 @@ namespace GerenciadorDeContatos
 
         public static void ImprimirLista(List<Contato> contatos)
         {
+            Console.Clear();
             Console.WriteLine("=======LISTA DE CONTATOS=======");
             foreach(Contato contato in contatos)
             {
+                Console.WriteLine("Id: " + contato.Id);
                 Console.WriteLine("Nome: " + contato.Nome);
                 Console.WriteLine("Telefone: " + contato.Telefone);
                 Console.WriteLine("Email: " + contato.Email);
                 LinhaLonga();
             }
             Console.WriteLine("Aperte qualquer tecla para voltar...");
-            Console.Read();
+            Console.ReadKey();
+        }
+
+        public static bool ConferirCampos(Contato contato)
+        {
+            var CamposDeTextoObrigatorios = new List<(string Valor, string Nome)>
+            {
+                (contato.Nome, "Nome" ),
+                (contato.Telefone, "Telefone")
+            };
+
+            foreach(var campo in CamposDeTextoObrigatorios)
+            {
+                if(string.IsNullOrEmpty(campo.Valor))
+                {
+                    Console.WriteLine($"[AVISO] - O campo '{campo.Nome}' está vazio. Preencha novamente!");
+                    Console.WriteLine("Pressione qualquer tecla para voltar...");
+                    Console.ReadKey();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static void AdicionarContatoMenu(List<Contato> contatos)
+        {
+            string nome;
+            string email;
+            string telefone;
+            int id = (contatos.Count + 1);
+
+            bool camposEstaoCorretos = false;
+
+            Contato novoContato = new Contato(0, "", "", "");
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("=======ADICIONAR CONTATO=======");
+                Console.WriteLine("> Digite o valor desejado <");
+
+                Console.Write("Nome: ");
+                nome = Console.ReadLine();
+
+                Console.Write("\nEmail: ");
+                email = Console.ReadLine();
+
+                Console.Write("\nTelefone: ");
+                telefone = Console.ReadLine();
+
+                Console.WriteLine("\n");
+
+                LinhaLonga();
+                novoContato = new Contato(id, nome, email, telefone);
+                camposEstaoCorretos = ConferirCampos(novoContato);
+            } while (!camposEstaoCorretos);
+
+            contatos.Add(novoContato);
+
         }
 
     }

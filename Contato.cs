@@ -10,11 +10,21 @@ namespace GerenciadorDeContatos
     internal class Contato
     {
         //definição dos atributos
+        private int id;
         private string nome;
         private string email;
         private string telefone;
 
         //get e set dos atributos
+
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+            }
+        }
         public string Nome {
             get { return nome; } 
             set 
@@ -55,16 +65,18 @@ namespace GerenciadorDeContatos
 
         //construtor 1
         [JsonConstructor]
-        public Contato(string nome, string email, string telefone)
+        public Contato(int id, string nome, string email, string telefone)
         {
+            this.id = id;
             this.nome = nome;
             this.email = email;
             this.telefone = telefone;
         }
 
         //construtor 2 (sem email)
-        public Contato(string nome, string telefone)
+        public Contato(int id, string nome, string telefone)
         {
+            this.id = id;
             this.nome = nome;
             this.telefone = telefone;
         }
