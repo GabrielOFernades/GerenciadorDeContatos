@@ -7,7 +7,7 @@
             ContatoRepository contatoRepository = new ContatoRepository();
 
             List<Contato> contatos = contatoRepository.CapturarDados();
-            Menu.MenuPrincipal(contatos);
+            Menu.MenuPrincipal( ref contatos);
         }
     }
 }
