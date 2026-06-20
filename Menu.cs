@@ -164,6 +164,7 @@ namespace GerenciadorDeContatos
                     ContatoRepository.SubstituirContato(ref contatos, contatoEditar, indiceContato);
 
                     Console.Clear();
+                    break;
                 }
 
             } while (ContatoRepository.RetornarContatoPorId(contatos, idEscolhido) == null || !ContatoRepository.ConferirCampos(contatoEditar));

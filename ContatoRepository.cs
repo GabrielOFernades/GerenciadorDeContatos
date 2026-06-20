@@ -8,6 +8,9 @@ using System.Text.Json;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.Arm;
+using System.Text.RegularExpressions;
+using System.Data;
+
 
 namespace GerenciadorDeContatos
 {
@@ -80,24 +83,65 @@ namespace GerenciadorDeContatos
 
         public static bool ConferirCampos(Contato contato)
         {
-            var CamposDeTextoObrigatorios = new List<(string Valor, string Nome)>
-            {
-                (contato.Nome, "Nome" ),
-                (contato.Telefone, "Telefone")
-            };
+            bool nomeValido = ValidarNome(contato.Nome);
+            bool telefoneValido = ValidarTelefone(contato.Telefone);
 
-            foreach (var campo in CamposDeTextoObrigatorios)
+            if(nomeValido && telefoneValido)
             {
-                if (string.IsNullOrEmpty(campo.Valor))
-                {
-                    Console.WriteLine($"[AVISO] - O campo '{campo.Nome}' está vazio. Preencha novamente!");
-                    Console.WriteLine("Pressione qualquer tecla para voltar...");
-                    Console.ReadKey();
-                    return false;
-                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool ConferirCampos(string nome, string telefone)
+        {
+            bool nomeValido = ValidarNome(nome);
+            bool telefoneValido = ValidarTelefone(telefone);
+
+            if (nomeValido && telefoneValido)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool ValidarNome(string nome)
+        {
+            if(string.IsNullOrEmpty(nome))
+            {
+                Console.WriteLine("O Nome deve ser preenchido");
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ValidarTelefone(string telefone)
+        {
+            Regex regNumeroCelular = new Regex(@"^\d+$");
+
+            Match match = regNumeroCelular.Match(telefone);
+
+            if(string.IsNullOrEmpty(telefone))
+            {
+                Console.WriteLine("O Telefone deve ser preenchido.");
+                return false;
             }
 
-            return true;
+            if (match.Success)
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("O telefone não está no formato correto (somente números)");
+                return false;
+            }
         }
 
         public static bool IdDoContatoExiste(List<Contato> contatos, int id)
@@ -125,24 +169,35 @@ namespace GerenciadorDeContatos
             string nome;
             string telefone;
             string email;
-            do
+            bool camposValidos = false;
+            while(camposValidos == false)
             {
                 Menu.ImprimirInformacoesDoContato(contato);
                 Console.WriteLine("\n");
                 Console.Write("Novo Nome: ");
                 nome = Console.ReadLine();
 
-                Console.Write("Novo Telefone: ");
-                telefone = Console.ReadLine();
-
                 Console.Write("Novo Email: ");
                 email = Console.ReadLine();
 
-                contato.Nome = nome;
-                contato.Telefone = telefone;
-                contato.Email = email;
+                Console.Write("Novo Telefone: ");
+                telefone = Console.ReadLine();
 
-            } while (!ConferirCampos(contato));
+
+                camposValidos = ConferirCampos(nome, telefone);
+
+                if (camposValidos)
+                {
+                    contato.Nome = nome;
+                    contato.Telefone = telefone;
+                    contato.Email = email;
+                }
+                else
+                {
+                    camposValidos = false;
+                }
+
+            };
 
             return contato;
         }
