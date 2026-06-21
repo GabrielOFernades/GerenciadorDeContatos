@@ -85,7 +85,7 @@ namespace GerenciadorDeContatos
                         break;
                     case 2:
                         Console.Clear();
-                        ContatoRepository.ImprimirListaDeContatos(contatos);
+                        ImprimirListaDeContatos(contatos);
                         Console.WriteLine("Aperte qualquer tecla para voltar...");
                         Console.ReadKey();
                         break;
@@ -128,7 +128,7 @@ namespace GerenciadorDeContatos
 
                 LinhaLonga();
                 novoContato = new Contato(id, nome, email, telefone);
-                camposEstaoCorretos = ContatoRepository.ConferirCampos(novoContato);
+                camposEstaoCorretos = ContatoService.ConferirCampos(novoContato);
             } while (!camposEstaoCorretos);
 
             contatos.Add(novoContato);
@@ -143,11 +143,11 @@ namespace GerenciadorDeContatos
             do
             {
                 Console.Clear();
-                ContatoRepository.ImprimirListaDeContatos(contatos);
+                ImprimirListaDeContatos(contatos);
                 Console.WriteLine("Digite o ID do contato: ");
                 idEscolhido = int.Parse(Console.ReadLine());
 
-                if(ContatoRepository.RetornarContatoPorId(contatos, idEscolhido) == null)
+                if(RetornarContatoPorId(contatos, idEscolhido) == null)
                 {
                     Console.WriteLine("Contato inexistente na lista. Insira um ID válido");
                     Console.WriteLine("Pressione qualquer tecla para voltar...");
@@ -155,19 +155,19 @@ namespace GerenciadorDeContatos
                 }
                 else
                 {
-                    contatoEditar = ContatoRepository.RetornarContatoPorId(contatos, idEscolhido);
+                    contatoEditar = RetornarContatoPorId(contatos, idEscolhido);
 
-                    contatoEditar = ContatoRepository.EditarContato(contatoEditar);
+                    contatoEditar = EditarContato(contatoEditar);
 
                     int indiceContato = contatos.FindIndex(contato => contato.Id == idEscolhido);
 
-                    ContatoRepository.SubstituirContato(ref contatos, contatoEditar, indiceContato);
+                    ContatoService.SubstituirContato(ref contatos, contatoEditar, indiceContato);
 
                     Console.Clear();
                     break;
                 }
 
-            } while (ContatoRepository.RetornarContatoPorId(contatos, idEscolhido) == null || !ContatoRepository.ConferirCampos(contatoEditar));
+            } while (RetornarContatoPorId(contatos, idEscolhido) == null || !ContatoService.ConferirCampos(contatoEditar));
 
         }
 
@@ -178,6 +178,76 @@ namespace GerenciadorDeContatos
             Console.WriteLine($"Email: '{contato.Email}'");
             Console.WriteLine($"Telefone: '{contato.Telefone}'");
         }
+         public static void ImprimirListaDeContatos(List<Contato> contatos)
+        {
 
+            Console.WriteLine("=======LISTA DE CONTATOS=======");
+            foreach (Contato contato in contatos)
+            {
+                Console.WriteLine("Id: " + contato.Id);
+                Console.WriteLine("Nome: " + contato.Nome);
+                Console.WriteLine("Telefone: " + contato.Telefone);
+                Console.WriteLine("Email: " + contato.Email);
+                Menu.LinhaLonga();
+            }
+        }
+
+        public static Contato EditarContato(Contato contato)
+        {
+
+            string nome;
+            string telefone;
+            string email;
+            bool camposValidos = false;
+            while (camposValidos == false)
+            {
+                Menu.ImprimirInformacoesDoContato(contato);
+                Console.WriteLine("\n");
+                Console.Write("Novo Nome: ");
+                nome = Console.ReadLine();
+
+                Console.Write("Novo Email: ");
+                email = Console.ReadLine();
+
+                Console.Write("Novo Telefone: ");
+                telefone = Console.ReadLine();
+
+
+                camposValidos = ContatoService.ConferirCampos(nome, telefone);
+
+                if (camposValidos)
+                {
+                    contato.Nome = nome;
+                    contato.Telefone = telefone;
+                    contato.Email = email;
+                }
+                else
+                {
+                    camposValidos = false;
+                }
+
+            };
+
+            return contato;
+        }
+
+        public static Contato RetornarContatoPorId(List<Contato> contatos, int id)
+        {
+            if (IdDoContatoExiste(contatos, id))
+            {
+                Contato contato = contatos.FirstOrDefault(contato => contato.Id == id);
+                return contato;
+            }
+            return null;
+        }
+
+        public static bool IdDoContatoExiste(List<Contato> contatos, int id)
+        {
+            if (contatos.Any(contato => contato.Id == id))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
