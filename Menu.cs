@@ -92,6 +92,10 @@ namespace GerenciadorDeContatos
                     case 3:
                         MenuEditarContato(ref contatos);
                         break;
+                    case 4:
+                        Console.Clear();
+                        RemoverContatoDaLista(ref contatos);
+                        break;
                 }
 
             } while (opcao != 0);
@@ -135,6 +139,17 @@ namespace GerenciadorDeContatos
 
         }
 
+        public static int EscolherIdDeContato(List<Contato> contatos)
+        {
+            int idEscolhido;
+            Console.Clear();
+            ImprimirListaDeContatos(contatos);
+            Console.WriteLine("Digite o ID do contato: ");
+            idEscolhido = int.Parse(Console.ReadLine());
+
+            return idEscolhido;
+        }
+
         public static void MenuEditarContato(ref List<Contato> contatos)
         {
             int idEscolhido;
@@ -142,11 +157,7 @@ namespace GerenciadorDeContatos
 
             do
             {
-                Console.Clear();
-                ImprimirListaDeContatos(contatos);
-                Console.WriteLine("Digite o ID do contato: ");
-                idEscolhido = int.Parse(Console.ReadLine());
-
+                idEscolhido = EscolherIdDeContato(contatos);
                 if(RetornarContatoPorId(contatos, idEscolhido) == null)
                 {
                     Console.WriteLine("Contato inexistente na lista. Insira um ID válido");
@@ -248,6 +259,24 @@ namespace GerenciadorDeContatos
                 return true;
             }
             return false;
+        }
+
+        public static void RemoverContatoDaLista(ref List<Contato> contatos)
+        {
+            int idEscolhido = EscolherIdDeContato(contatos);
+            if(RetornarContatoPorId(contatos, idEscolhido) != null)
+            {
+                Contato retornado = RetornarContatoPorId(contatos, idEscolhido);
+
+                contatos.Remove(retornado);
+                Console.WriteLine("Contato removido com sucesso...");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Id inválido, selecione um existente.");
+                Console.ReadLine();
+            }
         }
     }
 }
